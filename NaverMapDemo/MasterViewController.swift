@@ -21,14 +21,17 @@ class MasterViewController: UITableViewController {
 
     var detailViewController: DetailViewController? = nil
     var objects = [Any]()
-
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0, green: 0.8274509804, blue: 0.3254901961, alpha: 1)
-        navigationController?.navigationBar.tintColor = UIColor.white
+        navigationController?.navigationBar.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        
         if let split = splitViewController {
             let controllers = split.viewControllers
             detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
@@ -48,6 +51,7 @@ class MasterViewController: UITableViewController {
     @IBAction func respondToMoreOption(_ sender: Any) {
         let alertController = UIAlertController(title: "Menu", message: nil, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: "캐시 초기화", style: .default, handler: { [weak self] (action) in
+            
             DispatchQueue.main.async {
                 NMFOfflineStorage.shared.flushCache(completionHandler: { (error) in
                     let alert = UIAlertController(title: error != nil ? "캐시 초기화 실패" : "캐시 초기화",
@@ -57,6 +61,7 @@ class MasterViewController: UITableViewController {
                     self?.present(alert, animated: true, completion: nil)
                 })
             }
+            
         }))
         
         alertController.addAction(UIAlertAction(title: "버전 정보", style: .default, handler: { [weak self] (action) in
